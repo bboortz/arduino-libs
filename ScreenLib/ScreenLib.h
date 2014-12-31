@@ -134,7 +134,7 @@ class ScreenLib{
 		void setCursor(uint16_t x, uint16_t y);
 		void setTextColor(uint16_t color);
 		void setTextSize(uint8_t size);
-		void println(char *str);
+		void println(const char* str);
 
 		// screen area functions
 		void clearTopArea();
@@ -160,9 +160,9 @@ class ScreenLib{
 		void fillRect(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2, uint16_t color);
 
 		// write text functions
-		void writeText(uint16_t y, uint8_t size, char* c);
-		void writeTextToTop(char* c);
-		void writeTextToBottom(char* c);
+		void writeText(uint16_t y, uint8_t size, const char* c);
+		void writeTextToTop(const char* c);
+		void writeTextToBottom(const char* c);
 
 		// touchscreen functions
 		TS_Point touchscreenGetPoint();

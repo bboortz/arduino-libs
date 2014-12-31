@@ -71,7 +71,7 @@ void ScreenLib::setTextSize(uint8_t size) {
 	_tft.setTextSize(size);
 }
 
-void ScreenLib::println(char* str) {
+void ScreenLib::println(const char* str) {
 	_tft.println(str);
 }
 
@@ -227,18 +227,18 @@ void ScreenLib::fillRect(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2, uint1
 
 /**** write text functions ****/
 
-void ScreenLib::writeText(uint16_t y, uint8_t size, char* c) {
+void ScreenLib::writeText(uint16_t y, uint8_t size, const char* c) {
 	setCursor(SCREEN_TEXT_PADDING, y);
 	setTextColor(ILI9341_WHITE);  
 	setTextSize(size);
 	println(c);
 }
 
-void ScreenLib::writeTextToTop(char* c) {
+void ScreenLib::writeTextToTop(const char* c) {
 	writeText(SCREEN_TOP_MINY + SCREEN_TEXT_PADDING, 2, c);
 }
 
-void ScreenLib::writeTextToBottom(char* c) {
+void ScreenLib::writeTextToBottom(const char* c) {
 	clearBottomArea();
 	writeText(SCREEN_BOTTOM_MINY + SCREEN_TEXT_PADDING, 1, c);
 }
