@@ -1,0 +1,3 @@
+Widget		KEYWORD1
+GFX		KEYWORD2
+Graphic		KEYWORD2
