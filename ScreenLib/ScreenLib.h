@@ -113,17 +113,56 @@ class ScreenLib{
 
 		// default functions
 		ScreenLib(uint8_t cs_pin, uint8_t dc_pin, uint8_t rst_pin = -1)
-			: _tft (cs_pin, dc_pin), 
-			_keyboard( {
-                                { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' },
-                                { 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p' },
-                                { 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 0 },
-                                { 'z', 'x', 'c', 'v', 'b', 'n', 'm', 0, 0, 0 }
-                        } )
+			: _tft (cs_pin, dc_pin)
+
 		{
 			_ts = Adafruit_STMPE610(STMPE_CS);
 			_last_key_press_ms = 0;
 			_last_key = 0;
+
+			_keyboard[0][0] = '1';
+			_keyboard[0][1] = '2';
+			_keyboard[0][2] = '3';
+			_keyboard[0][3] = '4';
+			_keyboard[0][4] = '5';
+			_keyboard[0][5] = '6';
+			_keyboard[0][6] = '7';
+			_keyboard[0][7] = '8';
+			_keyboard[0][8] = '9';
+			_keyboard[0][9] = '0';
+
+			_keyboard[1][0] = 'q';
+			_keyboard[1][1] = 'w';
+			_keyboard[1][2] = 'e';
+			_keyboard[1][3] = 'r';
+			_keyboard[1][4] = 't';
+			_keyboard[1][5] = 'y';
+			_keyboard[1][6] = 'u';
+			_keyboard[1][7] = 'i';
+			_keyboard[1][8] = 'o';
+			_keyboard[1][9] = 'p';
+
+			_keyboard[2][0] = 'a';
+			_keyboard[2][1] = 's';
+			_keyboard[2][2] = 'd';
+			_keyboard[2][3] = 'f';
+			_keyboard[2][4] = 'g';
+			_keyboard[2][5] = 'h';
+			_keyboard[2][6] = 'j';
+			_keyboard[2][7] = 'k';
+			_keyboard[2][8] = 'l';
+			_keyboard[2][9] = 0;
+
+			_keyboard[3][0] = 'z';
+			_keyboard[3][1] = 'x';
+			_keyboard[3][2] = 'c';
+			_keyboard[3][3] = 'v';
+			_keyboard[3][4] = 'b';
+			_keyboard[3][5] = 'n';
+			_keyboard[3][6] = 'm';
+			_keyboard[3][7] = 0;
+			_keyboard[3][8] = 0;
+			_keyboard[3][9] = 0;
 
 		}
 		void setup();
@@ -184,6 +223,8 @@ class ScreenLib{
 //		WidgetLib _widget;
 
 		void drawKeyboardKeyInternal(uint16_t x, uint16_t y, char c, uint16_t color); 
+		void printKeyboardPress(uint16_t x, uint16_t y, uint16_t xArr, uint16_t yArr, char c);
 };
+
 
 #endif // #ifndef ScreenLib_h

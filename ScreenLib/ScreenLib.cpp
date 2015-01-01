@@ -118,10 +118,6 @@ void ScreenLib::drawKeyboard() {
         for ( y = 0; y < KEYBOARD_MAX_Y; y++) {
                 for ( x = 0; x < KEYBOARD_MAX_X; x++) {
                         char c = (char) _keyboard[y][x];
-                        Serial.print(x);
-                        Serial.print(" / "); Serial.print(y);
-                        Serial.print(" = "); Serial.print(c);
-                        Serial.println();
                         if ( c != 0 ) {
                                 drawKeyboardKey(BOXSIZE*x, BOXSIZE*(y + KEYBOARD_Y_ADD), _keyboard[y][x]);
                         }
@@ -131,6 +127,10 @@ void ScreenLib::drawKeyboard() {
 }
 
 void ScreenLib::drawKeyboardKey(uint16_t x, uint16_t y, char c) {
+	Serial.print("draw char: ");
+	Serial.print(x); Serial.print(" / "); Serial.print(y);
+	Serial.print(" = "); Serial.print(c);
+	Serial.println();
         drawKeyboardKeyInternal(x, y, c, SCREENLIB_WHITE);
 }
 
@@ -141,6 +141,7 @@ void ScreenLib::drawKeyboardKeyPress(uint16_t x, uint16_t y, char c) {
 char ScreenLib::actOnKeyboardKeyPress(uint16_t x, uint16_t y) {
 	int xArr = 0;
 	int yArr = 0;
+	char cTmp = 0;
 	char c = 0;
   
 
@@ -148,27 +149,20 @@ char ScreenLib::actOnKeyboardKeyPress(uint16_t x, uint16_t y) {
 	xArr = x / BOXSIZE;
 	yArr = ((y - BOXSIZE * KEYBOARD_Y_ADD) / BOXSIZE);
 
+
 	// check keyboard area
 	if (xArr < 0 || yArr < 0 || xArr > KEYBOARD_MAX_X-1 || yArr > KEYBOARD_MAX_Y-1) {
 		return c;
 	}
 
 	// another keyboard area check
-	c = (char)_keyboard[yArr][xArr];
-	if (c <= 0) {
+	cTmp = _keyboard[yArr][xArr];
+	if (cTmp <= 0 || cTmp > 127) {
 		return c;
 	}
+	c = cTmp;
 
-
-	Serial.print(x); Serial.print(" / "); Serial.print(y);
-	Serial.print("\t=> "); 
-	Serial.print(xArr); Serial.print(" / "); Serial.print(yArr);
-	Serial.print("\t=> "); 
-	Serial.print(c);
-	Serial.print("\t=> "); 
-	Serial.print(millis());
-	Serial.println("");
-
+	printKeyboardPress(x, y, xArr, yArr, c);
 	drawKeyboardKeyPress(  BOXSIZE*xArr, BOXSIZE*(yArr + KEYBOARD_Y_ADD), c);
   
 
@@ -184,6 +178,21 @@ void ScreenLib::drawKeyboardKeyInternal(uint16_t x, uint16_t y, char c, uint16_t
         _tft.print(c);
 }
 
+void ScreenLib::printKeyboardPress(uint16_t x, uint16_t y, uint16_t xArr, uint16_t yArr, char c) {
+	Serial.print("Keyboard press: ");
+	Serial.print(x); Serial.print(" / "); Serial.print(y);
+	Serial.print("\t=> ");
+	Serial.print(xArr); Serial.print(" / "); Serial.print(yArr);
+	Serial.print("\t=> ");
+	Serial.print((int)c);
+	Serial.print("\t=> ");
+	Serial.print(c);
+	Serial.print("\t=> ");
+	Serial.print(millis());
+	Serial.println("");
+}
+
+
 
 
 
@@ -195,6 +204,7 @@ void ScreenLib::drawKeyboardKeyInternal(uint16_t x, uint16_t y, char c, uint16_t
 	@brief	draws a button
 */
 void ScreenLib::drawButton(uint16_t x, uint16_t y) {
+	Serial.print("draw Button: ");
         Serial.print(x); Serial.print(" / "); Serial.print(y);
         Serial.println();
         _tft.fillCircle(x, y, SCREENLIB_BUTTON_SIZE, SCREENLIB_BLUE); 
