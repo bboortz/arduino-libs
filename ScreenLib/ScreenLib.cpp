@@ -22,23 +22,27 @@
 
 void ScreenLib::setup() {
 	Serial.begin(115200);
-	Serial.println("---------- setup screen -------->>");
-		
 
+#ifdef SCREENLIB_VERBOSE
+	Serial.println(SCREENLIB_MESSAGE_000);
+#endif // #ifdef SCREENLIB_VERBOSE
+		
 	_tft.begin();
 
 	if (!_ts.begin()) {
-		Serial.println("Couldn't start touchscreen controller");
+		Serial.println(SCREENLIB_MESSAGE_002);
 		while (1);
 	}
-	Serial.println("Screen started");
-	Serial.print("\theight: ");
-	Serial.println( _tft.height() );
-	Serial.print("\twidth: ");
-	Serial.println( _tft.width() );
-	Serial.println("<<-------- setup screen ----------");
-	Serial.println();
 
+#ifdef SCREENLIB_VERBOSE
+	Serial.println(SCREENLIB_MESSAGE_003);
+	Serial.print(SCREENLIB_MESSAGE_004);
+	Serial.print( _tft.height() );
+	Serial.print(SCREENLIB_MESSAGE_005);
+	Serial.println( _tft.width() );
+	Serial.println(SCREENLIB_MESSAGE_001);
+	Serial.println();
+#endif // #ifdef SCREENLIB_VERBOSE
 }
 
 
@@ -46,12 +50,25 @@ void ScreenLib::setup() {
 
 /**** basic functions ****/
 
+void ScreenLib::reset() {
+	// reset variables
+	_last_key_press_ms = 0;
+	_last_key = 0;
+
+	// black the screen
+	clearScreen();
+
+	// reset touchscreen
+	uint16_t x, y;
+	uint8_t z;  
+	while (!_ts.bufferEmpty()) {
+		_ts.readData(&x, &y, &z);
+	}
+	_ts.writeRegister8(STMPE_INT_STA, 0xFF);
+}
+
 void ScreenLib::clearScreen() {
 	_tft.fillScreen(SCREENLIB_BLACK);
-	clearTopArea();
-        clearButtonArea();
-        clearMainArea();
-        clearBottomArea();
 }
 
 void ScreenLib::fillScreen(uint16_t color) {
@@ -126,10 +143,6 @@ void ScreenLib::drawKeyboard() {
 }
 
 void ScreenLib::drawKeyboardKey(uint16_t x, uint16_t y, char c) {
-	Serial.print("draw char: ");
-	Serial.print(x); Serial.print(" / "); Serial.print(y);
-	Serial.print(" = "); Serial.print(c);
-	Serial.println();
         drawKeyboardKeyInternal(x, y, c, SCREENLIB_WHITE);
 }
 
@@ -178,6 +191,7 @@ void ScreenLib::drawKeyboardKeyInternal(uint16_t x, uint16_t y, char c, uint16_t
 }
 
 void ScreenLib::printKeyboardPress(uint16_t x, uint16_t y, uint16_t xArr, uint16_t yArr, char c) {
+#ifdef SCREENLIB_DEBUG	
 	Serial.print("Keyboard press: ");
 	Serial.print(x); Serial.print(" / "); Serial.print(y);
 	Serial.print("\t=> ");
@@ -189,6 +203,7 @@ void ScreenLib::printKeyboardPress(uint16_t x, uint16_t y, uint16_t xArr, uint16
 	Serial.print("\t=> ");
 	Serial.print(millis());
 	Serial.println("");
+#endif // #ifdef SCREENLIB_DEBUG
 }
 
 
@@ -203,12 +218,13 @@ void ScreenLib::printKeyboardPress(uint16_t x, uint16_t y, uint16_t xArr, uint16
 	@brief	draws a button
 */
 void ScreenLib::drawButton(uint16_t x, uint16_t y) {
+#ifdef SCREENLIB_DEBUG	
 	Serial.print("draw Button: ");
         Serial.print(x); Serial.print(" / "); Serial.print(y);
         Serial.println();
+#endif // #ifdef SCREENLIB_DEBUG
+
         _tft.fillCircle(x, y, SCREENLIB_BUTTON_SIZE, SCREENLIB_BLUE); 
-        Serial.print(_tft.width()); Serial.print(" / "); Serial.print(_tft.height());
-        Serial.println();
         _tft.drawCircle(x, y, SCREENLIB_BUTTON_SIZE, SCREENLIB_WHITE);
 
 }
@@ -236,11 +252,15 @@ void ScreenLib::fillRect(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2, uint1
 
 /**** write text functions ****/
 
-void ScreenLib::writeText(uint16_t y, uint8_t size, const char* c) {
-	setCursor(SCREEN_TEXT_PADDING, y);
-	setTextColor(ILI9341_WHITE);  
+void ScreenLib::writeText(uint16_t x, uint16_t y, uint8_t size, uint16_t color, const char* c) {
+	setCursor(x, y);
+	setTextColor(color);  
 	setTextSize(size);
 	println(c);
+}
+
+void ScreenLib::writeText(uint16_t y, uint8_t size, const char* c) {
+	writeText(SCREEN_TEXT_PADDING, y, size, SCREENLIB_WHITE, c);
 }
 
 void ScreenLib::writeTextToTop(const char* c) {
@@ -274,6 +294,14 @@ TS_Point ScreenLib::touchscreenGetPoint() {
 	}
 */
 
+	// wait for the touch and show it
+	if (_ts.bufferEmpty()) {
+		return p;
+	}
+	if (!_ts.touched()) {
+		return p;
+	}
+
 	// retrieve point
 	do {
 		p = _ts.getPoint();
@@ -290,18 +318,4 @@ TS_Point ScreenLib::touchscreenGetPoint() {
 }
 
 
-/**** getter for dependencies ****/
-
-Adafruit_ILI9341 ScreenLib::getTft() {
-	return _tft;
-}
-
-Adafruit_STMPE610 ScreenLib::getTouchScreen() {
-	return _ts;
-}
-/*
-WidgetLib ScreenLib::getWidget() {
-	return _widget;
-}
-*/
 

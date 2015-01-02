@@ -24,12 +24,28 @@
 
 
 /**** logging and debugging ****/
+
 // #define SCREENLIB_DEBUG
+// #define SCREENLIB_VERBOSE
+
+
+
+
+/**** messages ****/
+
+#define SCREENLIB_MESSAGE_000		"---------- setup screen -------->>"
+#define SCREENLIB_MESSAGE_001		"<<-------- setup screen ----------"
+#define SCREENLIB_MESSAGE_002		"Couldn't start touchscreen controller"
+#define SCREENLIB_MESSAGE_003		"Screen started"
+#define SCREENLIB_MESSAGE_004		"Screen Resolution: "
+#define SCREENLIB_MESSAGE_005		" x "
+
 
 
 
 
 /**** color settings ****/
+
 #define SCREENLIB_WHITE		ILI9341_WHITE
 #define SCREENLIB_BLACK		ILI9341_BLACK
 #define SCREENLIB_RED		ILI9341_RED
@@ -39,6 +55,7 @@
 
 
 /**** keyboard settings ****/
+
 #define KEYBOARD_MAX_X 10
 #define KEYBOARD_MAX_Y 4
 #define KEYBOARD_Y_ADD 4
@@ -51,6 +68,7 @@
 
 
 /**** button settings ****/
+
 #define SCREENLIB_BUTTON_SIZE   13
 
 
@@ -117,8 +135,6 @@ class ScreenLib{
 
 		{
 			_ts = Adafruit_STMPE610(STMPE_CS);
-			_last_key_press_ms = 0;
-			_last_key = 0;
 
 			_keyboard[0][0] = '1';
 			_keyboard[0][1] = '2';
@@ -164,10 +180,12 @@ class ScreenLib{
 			_keyboard[3][8] = 0;
 			_keyboard[3][9] = 0;
 
+			reset();
 		}
 		void setup();
 
 		// basic screen functions
+		void reset();
 		void clearScreen();
 		void fillScreen(uint16_t color);
 		void setCursor(uint16_t x, uint16_t y);
@@ -199,18 +217,13 @@ class ScreenLib{
 		void fillRect(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2, uint16_t color);
 
 		// write text functions
+		void writeText(uint16_t x, uint16_t y, uint8_t size, uint16_t color, const char* c);
 		void writeText(uint16_t y, uint8_t size, const char* c);
 		void writeTextToTop(const char* c);
 		void writeTextToBottom(const char* c);
 
 		// touchscreen functions
 		TS_Point touchscreenGetPoint();
-
-		// getter for dependencies
-		Adafruit_ILI9341 getTft();
-		Adafruit_STMPE610 getTouchScreen();
-//		WidgetLib getWidget();
-
 
 	private:
 		uint8_t _keyboard[KEYBOARD_MAX_Y][KEYBOARD_MAX_X];
@@ -219,8 +232,6 @@ class ScreenLib{
 
 		Adafruit_ILI9341 _tft;
 		Adafruit_STMPE610 _ts;
-
-//		WidgetLib _widget;
 
 		void drawKeyboardKeyInternal(uint16_t x, uint16_t y, char c, uint16_t color); 
 		void printKeyboardPress(uint16_t x, uint16_t y, uint16_t xArr, uint16_t yArr, char c);
