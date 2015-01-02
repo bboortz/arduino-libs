@@ -8,6 +8,9 @@
 #ifndef SDLib_h
 #define SDLib_h
 
+
+
+
 /**** includes ****/
 
 #if ARDUINO >= 100
@@ -23,7 +26,21 @@
 
 
 /**** logging and debugging ****/
+
 // #define SDLIB_DEBUG
+// #define SDLIB_VERBOSE
+
+
+
+
+/**** messages ****/
+
+#define SDLIB_MESSAGE_000           "---------- setup sd card controller -------->>"
+#define SDLIB_MESSAGE_001           "<<-------- setup sd card controller ----------"
+#define SDLIB_MESSAGE_002           "Couldn't start sd card controller"
+#define SDLIB_MESSAGE_003           "SD card controller started"
+#define SDLIB_MESSAGE_004           "Cannot open file: "
+#define SDLIB_MESSAGE_NOTIMPL		"Method is currently not implemented"
 
 
 
@@ -32,12 +49,11 @@
 
 #define SD_CS 4
 
-
 // change this to match your SD shield or module;
 //     Arduino Ethernet shield: pin 4
 //     Adafruit SD shields and modules: pin 10
 //     Sparkfun SD shield: pin 8
-#define SDLIB_CHIP 4
+#define SDLIB_CS	4
 
 
 
