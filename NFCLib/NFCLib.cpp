@@ -12,9 +12,6 @@
  #include "WProgram.h"
 #endif
 
-#include <Wire.h>
-#include "Adafruit_NFCShield_I2C.h"
-
 #include "NFCLib.h"
 
 // Uncomment these lines to enable debug output 

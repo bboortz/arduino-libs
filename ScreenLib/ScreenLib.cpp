@@ -13,7 +13,6 @@
  #include "WProgram.h"
 #endif
 
-//#include <Adafruit_ILI9341.h>          // the adafruit tft lib
 #include <ScreenLib.h>
 
 
