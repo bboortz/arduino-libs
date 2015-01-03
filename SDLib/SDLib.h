@@ -53,7 +53,7 @@
 //     Arduino Ethernet shield: pin 4
 //     Adafruit SD shields and modules: pin 10
 //     Sparkfun SD shield: pin 8
-#define SDLIB_CS	4
+#define SDLIB_CS	4		// CS PIN = CHIP_SELECT PIN
 
 
 
@@ -73,8 +73,7 @@ class SDLib{
 
 		// basic file functions
 		void showFile(const char* filepath);
-		void writeFile(File f);
-
+//		void writeFile(File f);
 
 };
 

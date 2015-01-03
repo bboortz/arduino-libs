@@ -71,7 +71,9 @@ void SDLib::showFile(const char* filepath) {
 	f.close();
 }
 
+/*
 void SDLib::writeFile(File f) {
 	Serial.println(SDLIB_MESSAGE_NOTIMPL);
 }
+*/
 

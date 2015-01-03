@@ -16,7 +16,7 @@
  #include "WProgram.h"
 #endif
 
-#include <Adafruit_GFX.h>              // the adafruit core graphics lib
+//#include <Adafruit_GFX.h>              // the adafruit core graphics lib
 #include <Adafruit_ILI9341.h>          // the adafruit tft lib
 #include <Adafruit_STMPE610.h>         // the adafruit touch lib
 
