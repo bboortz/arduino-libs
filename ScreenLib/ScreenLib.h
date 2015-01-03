@@ -136,6 +136,7 @@ class ScreenLib{
 		{
 			_ts = Adafruit_STMPE610(STMPE_CS);
 
+			// set keyboard
 			_keyboard[0][0] = '1';
 			_keyboard[0][1] = '2';
 			_keyboard[0][2] = '3';
@@ -180,13 +181,16 @@ class ScreenLib{
 			_keyboard[3][8] = 0;
 			_keyboard[3][9] = 0;
 
-			reset();
+			// preset some variables
+			_last_key_press_ms = 0;
+		        _last_key = 0;
 		}
 		void setup();
 
 		// basic screen functions
 		void reset();
 		void clearScreen();
+		void drawStandardScreen();
 		void fillScreen(uint16_t color);
 		void setCursor(uint16_t x, uint16_t y);
 		void setTextColor(uint16_t color);

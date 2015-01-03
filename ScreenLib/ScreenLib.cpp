@@ -71,6 +71,12 @@ void ScreenLib::clearScreen() {
 	_tft.fillScreen(SCREENLIB_BLACK);
 }
 
+void ScreenLib::drawStandardScreen() {
+	clearScreen();
+	clearTopArea();	
+	clearMainArea();	
+}
+
 void ScreenLib::fillScreen(uint16_t color) {
 	_tft.fillScreen(color);
 }
