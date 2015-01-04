@@ -18,6 +18,13 @@
 
 
 
+/**** buffer settings ****/
+
+#define SDLIB_STRING_BUF 16
+
+
+
+
 /**** default functions ****/
 
 void SDLib::setup() {
@@ -69,6 +76,40 @@ void SDLib::showFile(const char* filepath) {
 
 	// close the file:
 	f.close();
+}
+
+char* SDLib::readFile(const char* filepath) {
+	char result[SDLIB_STRING_BUF];
+	int n = 0;
+
+	// open the file for reading:
+	File f = SD.open(filepath);
+
+	if (!f) {
+		Serial.print(SDLIB_MESSAGE_004);
+		Serial.println(filepath);
+		f.close();
+		return result;
+	}
+
+	// read from the file until there's nothing else in it:
+	if (f.available()) {
+		n = f.read(&result, SDLIB_STRING_BUF-1);
+	}
+	result[n] = '\0';
+
+#ifdef SDLIB_DEBUG
+	Serial.print("char read: ");
+	Serial.println(n);
+	Serial.print("String: <");
+	Serial.print(result);
+	Serial.println(">");
+#endif // #ifdef SDLIB_DEBUG
+
+	// close the file:
+	f.close();
+
+	return result;
 }
 
 /*

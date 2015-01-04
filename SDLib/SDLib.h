@@ -73,6 +73,7 @@ class SDLib{
 
 		// basic file functions
 		void showFile(const char* filepath);
+		char* readFile(const char* filepath);
 //		void writeFile(File f);
 
 };
