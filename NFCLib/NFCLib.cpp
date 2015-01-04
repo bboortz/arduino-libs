@@ -32,23 +32,23 @@ void NFCLib::setupHost()
 	_writeEnabled = false;
 
 #ifdef NFCLIB_VERBOSE
-	Serial.print(NFCLIB_MESSAGE_000); 
+	Serial.print(F(NFCLIB_MESSAGE_000)); 
 #endif // #ifdef NFCLIB_VERBOSE
 
 	_nfc.begin();
 	uint32_t versiondata = _nfc.getFirmwareVersion();
 	if (! versiondata) {
-		Serial.println(NFCLIB_MESSAGE_002);
+		Serial.println(F(NFCLIB_MESSAGE_002));
 		while (1);           // halt
 	}
 
 	// Got ok data, print it out!
 #ifdef NFCLIB_VERBOSE
-	Serial.print(NFCLIB_MESSAGE_003); 
+	Serial.print(F(NFCLIB_MESSAGE_003)); 
 	Serial.println((versiondata>>24) & 0xFF, HEX);
-	Serial.print(NFCLIB_MESSAGE_004); 
+	Serial.print(F(NFCLIB_MESSAGE_004)); 
 	Serial.print((versiondata>>16) & 0xFF, DEC);
-	Serial.print(NFCLIB_MESSAGE_005); 
+	Serial.print(F(NFCLIB_MESSAGE_005)); 
 	Serial.println((versiondata>>8) & 0xFF, DEC);
 #endif // #ifdef NFCLIB_VERBOSE
 
@@ -61,7 +61,7 @@ void NFCLib::setupHost()
 	_nfc.SAMConfig();
 
 #ifdef NFCLIB_VERBOSE
-	Serial.println(NFCLIB_MESSAGE_001); 
+	Serial.println(F(NFCLIB_MESSAGE_001)); 
 	Serial.println();
 #endif // #ifdef NFCLIB_VERBOSE
 }
@@ -97,7 +97,7 @@ uint8_t NFCLib::initTarget(uint8_t *uid)
 	memcpy(uid, _uid, 6);
 
 	if (!success) {
-		Serial.println(NFCLIB_MESSAGE_014);    
+		Serial.println(F(NFCLIB_MESSAGE_014));    
 		return false;
 	}
 
@@ -116,26 +116,26 @@ uint8_t NFCLib::initTarget(uint8_t *uid)
 uint8_t NFCLib::printTarget()
 {
 	// Display some basic information about the card
-	Serial.println(NFCLIB_MESSAGE_006);
+	Serial.println(F(NFCLIB_MESSAGE_006));
 
 #ifdef NFCLIB_DEBUG
-	Serial.println("Found a ISO/IEC 14443 NFC card"); 
+	Serial.println(F(NFCLIB_MESSAGE_028)); 
 	if (_uidLength == 4) {
-		Serial.println(NFCLIB_MESSAGE_008);
+		Serial.println(F(NFCLIB_MESSAGE_008));
 	} 
 	else if ( _uidLength == 7) {
-		Serial.println(NFCLIB_MESSAGE_009);
+		Serial.println(F(NFCLIB_MESSAGE_009));
 	}
 #endif // #ifdef NFCLIB_DEBUG
 
 #ifdef NFCLIB_DEBUG
-	Serial.print(NFCLIB_MESSAGE_010);
+	Serial.print(F(NFCLIB_MESSAGE_010));
 	Serial.print(_uidLength, DEC);
-	Serial.println(NFCLIB_MESSAGE_015);
+	Serial.println(F(NFCLIB_MESSAGE_015));
 #endif // #ifdef NFCLIB_DEBUG
-	Serial.print(NFCLIB_MESSAGE_011);
+	Serial.print(F(NFCLIB_MESSAGE_011));
 	_nfc.PrintHexChar(_uid, _uidLength);
-	Serial.println(NFCLIB_MESSAGE_007);
+	Serial.println(F(NFCLIB_MESSAGE_007));
 	Serial.println();
 
 	return _uidLength;
@@ -158,14 +158,14 @@ uint8_t NFCLib::nfcAuthSector(uint8_t uidLength, uint8_t* uid, uint8_t sector, u
 
 	success = _nfc.mifareclassic_AuthenticateBlock(uid, uidLength, sector*4, 1, key);
 	if (!success) {
-		Serial.print(NFCLIB_MESSAGE_012);
+		Serial.print(F(NFCLIB_MESSAGE_012));
 		Serial.println(sector, DEC);
 		return false;       
 	}
 
 	success = nfcCheckAuthBlock(sector*4);
 	if (!success) {
-		Serial.print(NFCLIB_MESSAGE_013);
+		Serial.print(F(NFCLIB_MESSAGE_013));
 		Serial.println(sector, DEC);
 		return false;
 	}
@@ -207,15 +207,15 @@ uint8_t NFCLib::nfcPrintBlock(uint8_t block)
 	success = _nfc.mifareclassic_ReadDataBlock(block, data);
 
 	if (!success) {
-		Serial.print(NFCLIB_MESSAGE_016);
+		Serial.print(F(NFCLIB_MESSAGE_016));
 		Serial.print(block, DEC);
 		return false;
 	}
 
 	// Data seems to have been read ... spit it out
-	Serial.print(NFCLIB_MESSAGE_017);
+	Serial.print(F(NFCLIB_MESSAGE_017));
 	Serial.print(block, DEC);  
-	Serial.print(NFCLIB_MESSAGE_018);
+	Serial.print(F(NFCLIB_MESSAGE_018));
 	_nfc.PrintHexChar(data, 16);
 
 	return true;
@@ -232,9 +232,9 @@ uint8_t NFCLib::nfcPrintBlock(uint8_t block)
 /**************************************************************************/
 uint8_t NFCLib::nfcPrintSector(uint8_t sector)
 {
-	Serial.print(NFCLIB_MESSAGE_019);
+	Serial.print(F(NFCLIB_MESSAGE_019));
 	Serial.print(sector, DEC);  
-	Serial.print(NFCLIB_MESSAGE_020);
+	Serial.print(F(NFCLIB_MESSAGE_020));
 	Serial.println();
 
 	int i = 0;
@@ -242,9 +242,9 @@ uint8_t NFCLib::nfcPrintSector(uint8_t sector)
 		nfcPrintBlock(sector*4+i);
 	}
 
-	Serial.print(NFCLIB_MESSAGE_021);
+	Serial.print(F(NFCLIB_MESSAGE_021));
 	Serial.print(sector, DEC);  
-	Serial.print(NFCLIB_MESSAGE_022);
+	Serial.print(F(NFCLIB_MESSAGE_022));
 	Serial.println();
 
 	return 0;
@@ -265,12 +265,12 @@ uint8_t NFCLib::nfcWriteBlock(uint8_t block, uint8_t * bytes) {
 	uint8_t data[16];
 
 	if (!_writeEnabled) {
-		Serial.println(NFCLIB_MESSAGE_023);
+		Serial.println(F(NFCLIB_MESSAGE_023));
 		return false;
 	}
 
 #ifdef NFCLIB_DEBUG
-	Serial.print(NFCLIB_MESSAGE_024);
+	Serial.print(F(NFCLIB_MESSAGE_024));
 	Serial.println(block, DEC);  
 #endif //#ifdef NFCLIB_DEBUG
 
@@ -279,7 +279,7 @@ uint8_t NFCLib::nfcWriteBlock(uint8_t block, uint8_t * bytes) {
 	success = _nfc.mifareclassic_WriteDataBlock (block, data);
 
 	if (!success) {
-		Serial.print(NFCLIB_MESSAGE_025);
+		Serial.print(F(NFCLIB_MESSAGE_025));
 		Serial.print(block, DEC);
 		return false;
 	}
@@ -289,7 +289,7 @@ uint8_t NFCLib::nfcWriteBlock(uint8_t block, uint8_t * bytes) {
 #ifdef NFCLIB_DEBUG
 	success = nfcPrintBlock(block);
 	if (success) {
-		Serial.println(NFCLIB_MESSAGE_026);
+		Serial.println(F(NFCLIB_MESSAGE_026));
 	}
 #endif //#ifdef NFCLIB_DEBUG
 
@@ -314,7 +314,7 @@ uint8_t NFCLib::nfcWriteKey(uint8_t block, uint8_t * bytes) {
 	};
 
 	if (!_writeEnabled) {
-		Serial.println(NFCLIB_MESSAGE_023);
+		Serial.println(F(NFCLIB_MESSAGE_023));
 		return false;
 	}
 
@@ -328,7 +328,7 @@ uint8_t NFCLib::nfcWriteKey(uint8_t block, uint8_t * bytes) {
 	return nfcWriteBlock(block, data);
 
 #ifdef NFCLIB_DEBUG
-	Serial.println(NFCLIB_MESSAGE_027);
+	Serial.println(F(NFCLIB_MESSAGE_027));
 	_nfc.PrintHexChar(data, 16);
 #endif //#ifdef NFCLIB_DEBUG
 

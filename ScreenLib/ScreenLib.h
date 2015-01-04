@@ -39,6 +39,11 @@
 #define SCREENLIB_MESSAGE_003		"Screen started"
 #define SCREENLIB_MESSAGE_004		"Screen Resolution: "
 #define SCREENLIB_MESSAGE_005		" x "
+#define SCREENLIB_MESSAGE_006		"Keyboard pressed: "
+#define SCREENLIB_MESSAGE_007		" \t=> "
+#define SCREENLIB_MESSAGE_008		"draw button: "
+
+#define SCREENLIB_STRING_SPLIT		" / "
 
 
 

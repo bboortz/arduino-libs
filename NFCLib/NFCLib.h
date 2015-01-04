@@ -64,6 +64,7 @@
 #define NFCLIB_MESSAGE_025           "ERROR: unable to write block "
 #define NFCLIB_MESSAGE_026           "Write done"
 #define NFCLIB_MESSAGE_027           "New Key"
+#define NFCLIB_MESSAGE_028           "Found a ISO/IEC 14443 NFC card"
 
 
 

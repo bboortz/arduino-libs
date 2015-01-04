@@ -24,7 +24,7 @@ void SDLib::setup() {
 
 	Serial.begin(115200);
 #ifdef SDLIB_VERBOSE
-	Serial.println(SDLIB_MESSAGE_000);
+	Serial.println(F(SDLIB_MESSAGE_000));
 #endif // #ifdef SDLIB_VERBOSE
 
 	// On the Ethernet Shield, CS is pin 4. It's set as an output by default.
@@ -34,13 +34,13 @@ void SDLib::setup() {
 	pinMode(SS, OUTPUT);
 
 	if ( !SD.begin(SDLIB_CS) ) {
-		Serial.println(SDLIB_MESSAGE_002);
+		Serial.println(F(SDLIB_MESSAGE_002));
 		while (1);
 	}
 
 #ifdef SDLIB_VERBOSE
-	Serial.println(SDLIB_MESSAGE_003);
-	Serial.println(SDLIB_MESSAGE_001);
+	Serial.println(F(SDLIB_MESSAGE_003));
+	Serial.println(F(SDLIB_MESSAGE_001));
 	Serial.println();
 #endif // #ifdef SDLIB_VERBOSE
 

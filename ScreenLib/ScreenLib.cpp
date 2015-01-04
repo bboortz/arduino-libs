@@ -24,7 +24,7 @@ void ScreenLib::setup() {
 	Serial.begin(115200);
 
 #ifdef SCREENLIB_VERBOSE
-	Serial.println(SCREENLIB_MESSAGE_000);
+	Serial.println(F(SCREENLIB_MESSAGE_000));
 #endif // #ifdef SCREENLIB_VERBOSE
 		
 	_tft.begin();
@@ -35,12 +35,12 @@ void ScreenLib::setup() {
 	}
 
 #ifdef SCREENLIB_VERBOSE
-	Serial.println(SCREENLIB_MESSAGE_003);
-	Serial.print(SCREENLIB_MESSAGE_004);
+	Serial.println(F(SCREENLIB_MESSAGE_003));
+	Serial.print(F(SCREENLIB_MESSAGE_004));
 	Serial.print( _tft.height() );
-	Serial.print(SCREENLIB_MESSAGE_005);
+	Serial.print(F(SCREENLIB_MESSAGE_005));
 	Serial.println( _tft.width() );
-	Serial.println(SCREENLIB_MESSAGE_001);
+	Serial.println(F(SCREENLIB_MESSAGE_001));
 	Serial.println();
 #endif // #ifdef SCREENLIB_VERBOSE
 }
@@ -198,15 +198,15 @@ void ScreenLib::drawKeyboardKeyInternal(uint16_t x, uint16_t y, char c, uint16_t
 
 void ScreenLib::printKeyboardPress(uint16_t x, uint16_t y, uint16_t xArr, uint16_t yArr, char c) {
 #ifdef SCREENLIB_DEBUG	
-	Serial.print("Keyboard press: ");
+	Serial.print(F(SCREENLIB_MESSAGE_006));
 	Serial.print(x); Serial.print(" / "); Serial.print(y);
-	Serial.print("\t=> ");
+	Serial.print(F(SCREENLIB_MESSAGE_007));
 	Serial.print(xArr); Serial.print(" / "); Serial.print(yArr);
-	Serial.print("\t=> ");
+	Serial.print(F(SCREENLIB_MESSAGE_007));
 	Serial.print((int)c);
-	Serial.print("\t=> ");
+	Serial.print(F(SCREENLIB_MESSAGE_007));
 	Serial.print(c);
-	Serial.print("\t=> ");
+	Serial.print(F(SCREENLIB_MESSAGE_007));
 	Serial.print(millis());
 	Serial.println("");
 #endif // #ifdef SCREENLIB_DEBUG
@@ -225,8 +225,8 @@ void ScreenLib::printKeyboardPress(uint16_t x, uint16_t y, uint16_t xArr, uint16
 */
 void ScreenLib::drawButton(uint16_t x, uint16_t y) {
 #ifdef SCREENLIB_DEBUG	
-	Serial.print("draw Button: ");
-        Serial.print(x); Serial.print(" / "); Serial.print(y);
+	Serial.print(F(SCREENLIB_MESSAGE_008));
+        Serial.print(x); Serial.print(F(SCREENLIB_STRING_SPLIT)); Serial.print(y);
         Serial.println();
 #endif // #ifdef SCREENLIB_DEBUG
 
