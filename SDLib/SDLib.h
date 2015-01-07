@@ -33,6 +33,13 @@
 
 
 
+/**** buffer settings ****/
+
+#define SDLIB_STRING_BUF 128
+
+
+
+
 /**** messages ****/
 
 #define SDLIB_MESSAGE_000           "---------- setup sd card controller -------->>"

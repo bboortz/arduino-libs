@@ -18,13 +18,6 @@
 
 
 
-/**** buffer settings ****/
-
-#define SDLIB_STRING_BUF 16
-
-
-
-
 /**** default functions ****/
 
 void SDLib::setup() {
@@ -79,7 +72,7 @@ void SDLib::showFile(const char* filepath) {
 }
 
 char* SDLib::readFile(const char* filepath) {
-	char result[SDLIB_STRING_BUF];
+	static char result[SDLIB_STRING_BUF];
 	int n = 0;
 
 	// open the file for reading:
